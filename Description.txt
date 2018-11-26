@@ -1,0 +1,30 @@
+Este workshop é orientado aqueles que pretendem iniciar-se em programação em 
+Python. 
+Tendo em especial atenção alunos do 1º ano, pretende-se que o inscrito
+desenvolva as seguintes capacidades:
+- Capacidade de reflexão sobre o problema em mão;
+- Resolução de problemas do ponto de vista da programação;
+- Expressão de pensamento programático.
+
+Todas as capacidades acima descritas vão ser exploradas através do Python.
+
+
+Este workshop é orientado aqueles que pretendam iniciar-se na arte de programação 
+em Python. 
+Tendo em especial atenção alunos do 1º ano, os principais objectivos deste 
+workshop serão:
+- Ferramentas básicas do Python
+- Estruturas de dados em Python
+- Mini Projecto em Python
+
+1+1=2 quickmaths
+
+Este workshop é orientado aqueles que pretendam iniciar-se na arte de programação 
+em Python. 
+Tendo em especial atenção alunos do 1º ano, os principais objectivos deste 
+workshop serão:
+- Ferramentas básicas do Python
+- Estruturas de dados em Python
+- Capacidade de reflexão sobre o problema em mão;
+- Resolução de problemas do ponto de vista da programação;
+- Expressão de pensamento programático.

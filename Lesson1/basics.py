@@ -1,87 +1,93 @@
-import datetime
-import pandas as pd
-import numpy as np
-
 from learntools.core.utils import bind_exercises
 from learntools.core.problem_factories import simple_problem
 from learntools.core.richtext import CodeSolution as CS
 from learntools.core.problem import *
 
-class WhichFeaturesAreUseful(ThoughtExperiment):
+class SumStringsWithNumbers(CodingProblem):
+    _var = 'result'
+    _hint = ''
     _solution = """It would be helpful to know whether New York City taxis
     vary prices based on how many passengers they have. Most places do not
     change fares based on numbers of passengers.
     If you assume New York City is the same, than only the top 4 features listed should matter. At first glance, it seems all of those should matter equally.
     """
+    _solution = CS(
+"""
+result = str(1) + " is the first number." + '\n' + "And " + str(3.2) + " is a decimal"
+""")
+    def check(self, result_obj):
+        assert result_obj == str(1) + " is the first number." + '\n' + "And " + str(3.2) + " is a decimal"
 
 class FirstPermImportance(CodingProblem):
-    _var = 'perm'
-    _hint = 'The only thing you need to change is the first argument to `PermutationImportance()`. Find the right model name in the code above'
+    _var = 'result'
+    _hint = ''
     _solution = CS(
 """
-import eli5
-from eli5.sklearn import PermutationImportance
-perm = PermutationImportance(first_model, random_state=1).fit(val_X, val_y)
-eli5.show_weights(perm, feature_names = base_features)
+numbers = [1,2,3]
+new_list = []
+result = 0
+new_list.append(str(numbers[0]))
+new_list.append(str(numbers[1]))
+new_list.append(str(numbers[2]))
+result = new_list[1]
 """)
-    def check(self, perm_obj):
-        assert np.allclose(perm_obj.feature_importances_,
-                            np.array([ 0.62288714,  0.8266946 ,  0.53837499,
-                                       0.84735854, -0.00291397]), rtol=0.1)
+    def check(self, result_obj):
+        assert result_obj == "2"
 
-class WhyLatitude(ThoughtExperiment):
-    _solution = """
-    1. Travel might tend to have greater latitude distances than longitude distances. If the longitudes values were generally closer together, shuffling them wouldn't matter as much.
-    2. Different parts of the city might have different pricing rules (e.g. price per mile), and pricing rules could vary more by latitude than longitude.
-    3. Tolls might be greater on roads going North<->South (changing latitude) than on roads going East <-> West (changing longitude).  Thus latitude would have a larger effect on the prediction because it captures the amount of the tolls.
-    """
+class WhyLatitude(CodingProblem):
+    _var = 'result'
+    _hint = ''
+    _solution = CS(
+"""
+result = 0
+numbers = [10, 20, 30, 40]
+for n in numbers:
+    result = result + n
+""")
+    def check(self, result_obj):
+        assert result_obj == 100
 
 class ImportanceWithAbsFeatures(CodingProblem):
-    _vars = ['perm2']
+    _var = 'result'
+    _hint = ''
     _solution = CS(
 """
-data['abs_lon_change'] = abs(data.dropoff_longitude - data.pickup_longitude)
-data['abs_lat_change'] = abs(data.dropoff_latitude - data.pickup_latitude)
-features_2  = ['pickup_longitude',
-               'pickup_latitude',
-               'dropoff_longitude',
-               'dropoff_latitude',
-               'abs_lat_change',
-               'abs_lon_change']
-X = data[features_2]
-new_train_X, new_val_X, new_train_y, new_val_y = train_test_split(X, y, random_state=1)
-second_model = RandomForestRegressor(n_estimators=30, random_state=1).fit(new_train_X, new_train_y)
-# Create a PermutationImportance object on second_model and fit it to new_val_X and new_val_y
-perm2 = PermutationImportance(second_model, random_state=1).fit(new_val_X, new_val_y)
-# show the weights for the permutation importance you just calculated
-eli5.show_weights(perm2, feature_names = features_2)
+numbers = [1,2,3,4,5,6,7,8,9]
+result = numbers[1::2] 
 """)
-    def check(self, perm_obj):
-        assert np.allclose(perm_obj.feature_importances_,
-                          np.array([0.06128774,  0.08575455, 0.07350467,
-                                    0.07330853,  0.57827417, 0.44671882]),
-                          rtol=0.1)
+    def check(self, result_obj):
+        assert result_obj == [2,4,6,8]
 
-class ScaleUpFeatureMagnitude(ThoughtExperiment):
-    _solution = """
-    The scale of features does not affect permutation importance per se. The only reason that rescaling a feature would affect PI is indirectly, if rescaling helped or hurt the ability of the particular learning method we're using to make use of that feature.
-    That won't happen with tree based models, like the Random Forest used here.
-    If you are familiar with Ridge Regression, you might be able to think of how that would be affected.
-    That said, the absolute change features are have high importance because they capture total distance traveled, which is the primary determinant of taxi fares...It is not an artifact of the feature magnitude.
-    """
+class ScaleUpFeatureMagnitude(CodingProblem):
+    _var = 'result'
+    _hint = ''
+    _solution = CS(
+"""
+x_list = [1,2,3,]
+y_list = [3, "hello", 65]
+# Replace these values
+first_term = sum(x_list)
+y_list.reverse() # remember that the `reverse()` operation does not have a result!
+second_term = y_list[0]
 
-class FromPermImportanceToMarginalEffect(ThoughtExperiment):
-    _solution = """
-    We cannot tell from the permutation importance results whether traveling a fixed latitudinal distance is more or less expensive than traveling the same longitudinal distance.
-    Possible reasons latitude feature are more important than longitude features
-    1. latitudinal distances in the dataset tend to be larger
-    2. it is more expensive to travel a fixed latitudinal distance
-    3. Both of the above
-    If abs_lon_change values were very small, longitues could be less important to the model even if the cost per mile of travel in that direction were high.
-    """
+result = first_term + second_term
+""")
+    def check(self, result_obj):
+        assert result_obj == 71
+
+class FromPermImportanceToMarginalEffect(CodingProblem):
+    _var = 'result'
+    _hint = ''
+    _solution = CS(
+"""
+data = ["John", "Doe", 53.44]
+result = f"Hello {data[0]} {data[1]}. Your current balance is ${data[2]}."
+""")
+    def check(self, result_obj):
+        assert result_obj == "Hello John Doe. Your current balance is $53.44."
 
 qvars = bind_exercises(globals(), [
-    WhichFeaturesAreUseful,
+    SumStringsWithNumbers,
     FirstPermImportance,
     WhyLatitude,
     ImportanceWithAbsFeatures,
